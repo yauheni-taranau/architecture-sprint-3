@@ -21,6 +21,8 @@
 
 Проект использует следующие зависимости:
 
+- Java 17
+- Maven >=3.8.1 && <4.0.0
 - `spring-boot-starter-web` - для создания веб-приложений.
 - `spring-boot-starter-data-jpa` - для работы с JPA и базой данных.
 - `postgresql` - драйвер для работы с PostgreSQL.
