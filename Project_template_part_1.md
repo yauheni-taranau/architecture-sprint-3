@@ -64,7 +64,7 @@
 ### 5. Визуализация контекста системы — диаграмма С4
 
 
-[Диаграмма контекста](https://github.com/yauheni-taranau/architecture-sprint-3/blob/project_part_1/smart-home-monolith/src/main/resources/uml/Context.puml)
+[Диаграмма контекста](https://github.com/yauheni-taranau/architecture-sprint-3/blob/project_part_1/smart-home-monolith/src/main/resources/uml/Context_monolyth.puml)
 
 
 # Задание 2. Проектирование микросервисной архитектуры
