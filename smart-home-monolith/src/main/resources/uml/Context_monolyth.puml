@@ -6,7 +6,9 @@ top to bottom direction
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
 Person(user, "User", "A user of the 'smart-home' system")
-System(SmartHomeMonolyth, "Smart home system", "System managing memberships, schedules, and payments")
+System(SmartHomeFrontend, "Smart home frontend")
+System(SmartHomeMonolyth, "Smart home system", "System managing heating systems and temperatures")
 
-Rel(user, SmartHomeMonolyth, "Uses the system")
+Rel(user, SmartHomeFrontend, "Uses the system")
+Rel(SmartHomeFrontend, SmartHomeMonolyth, "Requests the system")
 @enduml
