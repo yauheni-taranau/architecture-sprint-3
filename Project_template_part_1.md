@@ -70,7 +70,7 @@
 Чтобы добавить ссылку в файл Readme.md, нужно использовать синтаксис Markdown. Это делают так:
 
 ```markdown
-[Диаграмма контекста]()
+[Диаграмма контекста](https://github.com/yauheni-taranau/architecture-sprint-3/blob/project_part_1/smart-home-monolith/src/main/resources/uml/Context.puml)
 ```
 
 # Задание 2. Проектирование микросервисной архитектуры
