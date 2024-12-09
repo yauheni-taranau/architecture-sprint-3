@@ -73,16 +73,16 @@
 
 **Диаграмма контейнеров (Containers)**
 
-Добавьте диаграмму.
+[Диаграмма контекста](https://github.com/yauheni-taranau/architecture-sprint-3/blob/project_part_1/smart-home-monolith/src/main/resources/uml/Container.puml)
 
-**Диаграмма компонентов (Components)**
+[Диаграмма компонентов](https://github.com/yauheni-taranau/architecture-sprint-3/blob/project_part_1/smart-home-monolith/src/main/resources/uml/Component.puml)
 
 Добавьте диаграмму для каждого из выделенных микросервисов.
 
-**Диаграмма кода (Code)**
+[Диаграмма кода](https://github.com/yauheni-taranau/architecture-sprint-3/blob/project_part_1/smart-home-monolith/src/main/resources/uml/Code.puml)
 
 Добавьте одну диаграмму или несколько.
 
 # Задание 3. Разработка ER-диаграммы
 
-Добавьте сюда ER-диаграмму. Она должна отражать ключевые сущности системы, их атрибуты и тип связей между ними.
+[ER Диаграмма](https://github.com/yauheni-taranau/architecture-sprint-3/blob/project_part_1/smart-home-monolith/src/main/resources/uml/ER.puml)

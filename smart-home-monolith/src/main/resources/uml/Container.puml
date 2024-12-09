@@ -1,0 +1,41 @@
+@startuml
+title SmartHome Container Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "A user of the 'smart-home' system")
+Person(admin, "Admin", "An admin of the 'smart-home' system")
+
+Container(SmartHomeFrontend, "Smart home frontend")
+Container(AuthenticationProvider, "Smart home Authentication Provider")
+Container(SmartHomeDevicesMicroservice, "Smart home devices system", "System responsible for smart home devices installation and setup")
+Container(SmartHomeDevicesScenariosMicroservice, "Smart home devices scenarios system", "System responsible for devices scenarios")
+Container(SmartHomeIntegrations, "Smart home external integrations system", "System responsible for integration external device providers with user scenarios")
+Container(ExternalSystem, "External smart device provider") #aeb5bf
+Container(SmartHomeCDN, "Smart home CDN")
+Container(Gateway, "API Gateway")
+Container(Cache, "Redis cache")
+Container(NotificationsSystem, "Sends notifications")
+database DevicesMongoDB
+database ScenariosMongoDB
+queue Kafka
+
+
+Rel(user, SmartHomeFrontend, "Uses the system")
+Rel(admin, SmartHomeFrontend, "Administrates the system")
+SmartHomeCDN <- SmartHomeFrontend: Requests static content
+AuthenticationProvider <- Gateway : Authentication and Authorization
+Rel(SmartHomeFrontend, Gateway, "Requests system")
+Rel(Gateway, SmartHomeDevicesMicroservice, "Balances requests")
+Rel(Gateway, SmartHomeDevicesScenariosMicroservice, "Balances requests")
+SmartHomeDevicesMicroservice-> Cache: Requests cached data
+Cache <- SmartHomeDevicesScenariosMicroservice: Requests cached data
+SmartHomeDevicesMicroservice -d-> DevicesMongoDB
+SmartHomeDevicesScenariosMicroservice -d-> ScenariosMongoDB
+ExternalSystem -u--> Gateway: Requests
+Gateway -> SmartHomeIntegrations: Balances requests
+SmartHomeDevicesScenariosMicroservice  -> Kafka: Sends notifications to user
+Kafka <- NotificationsSystem: Receives data for notifications
+@enduml

@@ -1,0 +1,90 @@
+@startuml
+skinparam linetype ortho
+
+entity "User" {
+*email: string
+--
+*name : string
+*surname: string
+}
+
+entity jwt_key {
+*id: number: <<generated>>
+--
+*user_fk: number
+*type: string
+*created_at: datetime
+*expires_at: datetime
+}
+
+entity Home {
+*id: number <<generated>>
+--
+*user_fk: number
+*name: string
+*description: string
+}
+
+entity Floor{
+*id: number <<generated>>
+--
+*home_fk: number
+*name: string
+*description: string
+}
+
+entity Room {
+*id: number <<generated>>
+--
+*floor_fk: number
+*name: string
+*description: string
+}
+
+entity "SmartDevice" {
+*device_id : number <<generated>>
+--
+*room_fk: number
+*device_type
+*enabled: Boolean
+
+}
+
+entity "SmartDeviceInfo" {
+*device_id : number <<generated>>
+--
+*device_type
+*enabled: Boolean
+*attributes: json
+}
+
+entity "DeviceType" {
+*id: number <<generated>>
+--
+*name: string
+}
+
+entity DeviceScenario {
+*id: number <<generated>>
+--
+*created_at: datetime
+*enabled: boolean
+}
+
+entity Action {
+*id: number <<generated>>
+--
+*order_number: order
+*command: json
+}
+
+User}|..|| Home
+User}|..left|| jwt_key
+Home}|..|| Floor
+Floor}|..|| Room
+Room}|..right|| SmartDevice
+SmartDevice}|..up|| DeviceType
+SmartDevice ||..right SmartDeviceInfo
+SmartDevice}|..down|| DeviceScenario
+DeviceScenario}|..down|| Action
+@enduml
