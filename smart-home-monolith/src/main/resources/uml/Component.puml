@@ -1,0 +1,27 @@
+@startuml
+title SmartHome SmartHomeDevicesComponent Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+
+Container(Gateway, "API Gateway")
+Container(HomeController, "Allow users to maintain their homes")
+Container(DeviceController, "Allow users to maintain their smart devices")
+Container(HomeComponent, "Add new home, add/remove floors and rooms")
+Container(DeviceComponent, "Add/remove devices to rooms, enable/disable/setup devices")
+Container(NotificationComponent, "Sends required notifications")
+database MongoDB
+queue kafka
+
+
+Rel(Gateway, HomeController, "Balances requests")
+Rel(Gateway, DeviceController, "Balances requests")
+Rel(HomeComponent, MongoDB, "Reads from and writes to")
+Rel(DeviceComponent, MongoDB, "Reads from and writes to")
+Rel(HomeController, HomeComponent, "Uses")
+Rel(DeviceController, DeviceComponent, "Uses")
+Rel(DeviceComponent, kafka, "produces")
+Rel(NotificationComponent, kafka, "consumes")
+@enduml
