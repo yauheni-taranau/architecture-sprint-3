@@ -13,6 +13,7 @@ Container(AuthenticationProvider, "Smart home Authentication Provider")
 Container(SmartHomeDevicesMicroservice, "Smart home devices system", "System responsible for smart home devices installation and setup")
 Container(SmartHomeDevicesScenariosMicroservice, "Smart home devices scenarios system", "System responsible for devices scenarios")
 Container(SmartHomeIntegrations, "Smart home external integrations system", "System responsible for integration external device providers with user scenarios")
+Container(SmartHomeTelemetryMicroservices, "Smart home telemetry system", "System responsible for sensors telemetry")
 Container(ExternalSystem, "External smart device provider") #aeb5bf
 Container(SmartHomeCDN, "Smart home CDN")
 Container(Gateway, "API Gateway")
@@ -20,22 +21,27 @@ Container(Cache, "Redis cache")
 Container(NotificationsSystem, "Sends notifications")
 database DevicesMongoDB
 database ScenariosMongoDB
+
+circle sensor
+
 queue Kafka
 
 
 Rel(user, SmartHomeFrontend, "Uses the system")
 Rel(admin, SmartHomeFrontend, "Administrates the system")
-SmartHomeCDN <- SmartHomeFrontend: Requests static content
-AuthenticationProvider <- Gateway : Authentication and Authorization
-Rel(SmartHomeFrontend, Gateway, "Requests system")
-Rel(Gateway, SmartHomeDevicesMicroservice, "Balances requests")
-Rel(Gateway, SmartHomeDevicesScenariosMicroservice, "Balances requests")
-SmartHomeDevicesMicroservice-> Cache: Requests cached data
-Cache <- SmartHomeDevicesScenariosMicroservice: Requests cached data
-SmartHomeDevicesMicroservice -d-> DevicesMongoDB
-SmartHomeDevicesScenariosMicroservice -d-> ScenariosMongoDB
-ExternalSystem -u--> Gateway: Requests
-Gateway -> SmartHomeIntegrations: Balances requests
-SmartHomeDevicesScenariosMicroservice  -> Kafka: Sends notifications to user
-Kafka <- NotificationsSystem: Receives data for notifications
+SmartHomeCDN <- SmartHomeFrontend: Requests static content (HTTPS)
+AuthenticationProvider <- Gateway : Authentication and Authorization (HTTPS)
+Rel(SmartHomeFrontend, Gateway, "Requests system") (HTTPS)
+Rel(Gateway, SmartHomeDevicesMicroservice, "Balances requests") (HTTPS)
+Rel(Gateway, SmartHomeDevicesScenariosMicroservice, "Balances requests") (HTTPS)
+SmartHomeDevicesMicroservice-> Cache: Requests cached data (HTTPS)
+Cache <- SmartHomeDevicesScenariosMicroservice: Requests cached data (HTTPS)
+SmartHomeDevicesMicroservice -d-> DevicesMongoDB: Reactive Java Driver
+SmartHomeDevicesScenariosMicroservice -d-> ScenariosMongoDB: Reactive Java Driver
+ExternalSystem -u--> Gateway: Requests (HTTPS)
+Gateway -> SmartHomeIntegrations: Balances requests (HTTPS)
+SmartHomeDevicesScenariosMicroservice  -> Kafka: Sends notifications to user (Kafka protocol)
+Kafka <- NotificationsSystem: Receives data for notifications (Kafka protocol)
+SmartHomeTelemetryMicroservices -> sensor: Pulls for updates (OTLP)
+SmartHomeTelemetryMicroservices -u-> Gateway: Initiate update scenarios (HTTPS)
 @enduml

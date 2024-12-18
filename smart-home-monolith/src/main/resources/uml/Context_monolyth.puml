@@ -7,7 +7,10 @@ top to bottom direction
 
 Person(user, "User", "A user of the 'smart-home' system")
 System(SmartHomeFrontend, "Smart home frontend")
-System(SmartHomeMonolyth, "Smart home system", "System managing heating systems and temperatures")
+package "SmartHomeMonolyth" {
+System(HeatingSystemService, "Heating system service", "System managing heating systems and temperatures")
+System(SmartHomeSensorsService, "Sensors service", "System managing sensors")
+}
 
 Rel(user, SmartHomeFrontend, "Uses the system")
 Rel(SmartHomeFrontend, SmartHomeMonolyth, "Requests the system")

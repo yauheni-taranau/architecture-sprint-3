@@ -45,7 +45,7 @@ entity "SmartDevice" {
 *device_id : number <<generated>>
 --
 *room_fk: number
-*device_type
+*device_type_fk: number
 *enabled: Boolean
 
 }
@@ -54,11 +54,17 @@ entity "SmartDeviceInfo" {
 *device_id : number <<generated>>
 --
 *device_type
-*enabled: Boolean
+*status_fk: number
 *attributes: json
 }
 
-entity "DeviceType" {
+enum "DeviceStatus" {
+*id: number <<generated>>
+--
+*name: string
+}
+
+enum "DeviceType" {
 *id: number <<generated>>
 --
 *name: string
@@ -78,6 +84,20 @@ entity Action {
 *command: json
 }
 
+entity DeviceTelemetry {
+*id: number <<generated>>
+--
+*created_at: datetime
+*device_fk: number
+}
+
+entity DeviceTelemetryUpdate {
+*id: number <<generated>>
+--
+*device_telemetry_fk: number
+*attributes_update: JSON
+}
+
 User}|..|| Home
 User}|..left|| jwt_key
 Home}|..|| Floor
@@ -87,4 +107,7 @@ SmartDevice}|..up|| DeviceType
 SmartDevice ||..right SmartDeviceInfo
 SmartDevice}|..down|| DeviceScenario
 DeviceScenario}|..down|| Action
+SmartDeviceInfo}|..|| DeviceStatus
+SmartDevice}|..|| DeviceTelemetry
+DeviceTelemetry}|..|| DeviceTelemetryUpdate
 @enduml
