@@ -1,0 +1,17 @@
+@startuml
+title SmartHomeMonolyth Context Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "A user of the 'smart-home' system")
+System(SmartHomeFrontend, "Smart home frontend")
+package "SmartHomeMonolyth" {
+System(HeatingSystemService, "Heating system service", "System managing heating systems and temperatures")
+System(SmartHomeSensorsService, "Sensors service", "System managing sensors")
+}
+
+Rel(user, SmartHomeFrontend, "Uses the system")
+Rel(SmartHomeFrontend, SmartHomeMonolyth, "Requests the system")
+@enduml

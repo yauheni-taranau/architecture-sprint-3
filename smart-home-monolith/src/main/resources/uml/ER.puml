@@ -1,0 +1,113 @@
+@startuml
+skinparam linetype ortho
+
+entity "User" {
+*email: string
+--
+*name : string
+*surname: string
+}
+
+entity jwt_key {
+*id: number: <<generated>>
+--
+*user_fk: number
+*type: string
+*created_at: datetime
+*expires_at: datetime
+}
+
+entity Home {
+*id: number <<generated>>
+--
+*user_fk: number
+*name: string
+*description: string
+}
+
+entity Floor{
+*id: number <<generated>>
+--
+*home_fk: number
+*name: string
+*description: string
+}
+
+entity Room {
+*id: number <<generated>>
+--
+*floor_fk: number
+*name: string
+*description: string
+}
+
+entity "SmartDevice" {
+*device_id : number <<generated>>
+--
+*room_fk: number
+*device_type_fk: number
+*enabled: Boolean
+
+}
+
+entity "SmartDeviceInfo" {
+*device_id : number <<generated>>
+--
+*device_type
+*status_fk: number
+*attributes: json
+}
+
+enum "DeviceStatus" {
+*id: number <<generated>>
+--
+*name: string
+}
+
+enum "DeviceType" {
+*id: number <<generated>>
+--
+*name: string
+}
+
+entity DeviceScenario {
+*id: number <<generated>>
+--
+*created_at: datetime
+*enabled: boolean
+}
+
+entity Action {
+*id: number <<generated>>
+--
+*order_number: order
+*command: json
+}
+
+entity DeviceTelemetry {
+*id: number <<generated>>
+--
+*created_at: datetime
+*device_fk: number
+}
+
+entity DeviceTelemetryUpdate {
+*id: number <<generated>>
+--
+*device_telemetry_fk: number
+*attributes_update: JSON
+}
+
+User}|..|| Home
+User}|..left|| jwt_key
+Home}|..|| Floor
+Floor}|..|| Room
+Room}|..right|| SmartDevice
+SmartDevice}|..up|| DeviceType
+SmartDevice ||..right SmartDeviceInfo
+SmartDevice}|..down|| DeviceScenario
+DeviceScenario}|..down|| Action
+SmartDeviceInfo}|..|| DeviceStatus
+SmartDevice}|..|| DeviceTelemetry
+DeviceTelemetry}|..|| DeviceTelemetryUpdate
+@enduml

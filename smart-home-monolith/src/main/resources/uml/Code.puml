@@ -1,0 +1,56 @@
+@startuml
+title SmartHome Code Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+class User {
++String name
++String surname
++String email
++List<SmartDevice> devices
++void register()
++JWT login()
+}
+
+class SmartDevice {
++String UUID
++SmartDeviceType Type
++List<String> attributes
++void enable()
++void disable()
++void setUp()
+}
+
+class SmartDeviceType {
++String value
+}
+
+class SmartDeviceScenario {
++String enableTime
++String disableTime
++String value
+}
+
+class ExternalSystemIntegration {
++String oauth2Key
++String oauth2Secret
++String token
++void authorize()
++void integrate()
+}
+
+class Notification {
++String userEmail
++String payload
++String notificationType
+}
+
+User "1" -- "0.." SmartDevice: has
+SmartDevice  --  SmartDeviceType
+SmartDevice "1" -- "0.." SmartDeviceScenario : has
+ExternalSystemIntegration "1" -- "1." SmartDeviceScenario
+User "1" -- "0.." Notification: has
+
+@enduml
